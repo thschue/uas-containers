@@ -99,7 +99,7 @@ jobs:
   ############################################################################
   container_build_ssoa:
     needs: [prepare_ci_run]
-    name: Docker Build
+    name: Docker Build SSOA
     runs-on: ubuntu-20.04
     env:
       BRANCH: ${{ needs.prepare_ci_run.outputs.BRANCH }}
@@ -143,7 +143,7 @@ jobs:
       - name: Run Trivy vulnerability scanner for SSOA Tools
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'thschue/uas-ssoa-tools:${{ env.VERSION }}'
+          image-ref: 'ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -171,7 +171,7 @@ jobs:
 
   container_build_virt:
     needs: [prepare_ci_run]
-    name: Docker Build
+    name: Docker Build VIRT
     runs-on: ubuntu-20.04
     env:
       BRANCH: ${{ needs.prepare_ci_run.outputs.BRANCH }}
@@ -214,7 +214,7 @@ jobs:
       - name: Run Trivy vulnerability scanner for VIRT Tools
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'thschue/uas-virt-tools:${{ env.VERSION }}'
+          image-ref: 'ghcr.io/thschue/uas-virt-tools:${{ env.VERSION }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
