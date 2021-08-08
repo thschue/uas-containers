@@ -98,7 +98,7 @@ jobs:
   # Build Docker Image                                                      #
   ############################################################################
   docker_build:
-    needs: [prepare_ci_run, unit-tests]
+    needs: [prepare_ci_run]
     name: Docker Build
     runs-on: ubuntu-20.04
     env:
@@ -153,6 +153,26 @@ jobs:
             thschue/uas-virt-tools:${{ env.VERSION }}
             ghcr.io/thschue/uas-virt-tools:latest
             ghcr.io/thschue/uas-virt-tools:${{ env.VERSION }}
+
+      - name: Run Trivy vulnerability scanner for VIRT Tools
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'thschue/uas-virt-tools:${{ env.VERSION }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy vulnerability scanner for SSOA Tools
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'thschue/uas-ssoa-tools:${{ env.VERSION }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
 
       - id: create_docker_build_report
         name: Create Docker Build Report
