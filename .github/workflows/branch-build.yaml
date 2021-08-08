@@ -9,6 +9,11 @@ on:
       - '!master'   # excludes master
       - '!main'
       - '!release-*'
+  pull_request:
+    branches:
+      - '!master'
+      - '!main'
+      - '!release-*'
 
 defaults:
   run:
