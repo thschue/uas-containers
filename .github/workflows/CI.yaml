@@ -230,6 +230,11 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
+      - name: Sign Container
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: cosign sign -key .github/workflows/cosign.key ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
+
       - id: create_docker_build_report
         name: Create Docker Build Report
         run: |
