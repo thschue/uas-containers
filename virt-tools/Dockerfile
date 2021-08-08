@@ -1,7 +1,9 @@
 ARG ALPINE_VERSION=latest
-ARG TERRAFORM_VERSION=1.0.4
 
 FROM alpine:${ALPINE_VERSION} as builder
+
+ARG TERRAFORM_VERSION=1.0.4
+
 RUN apk add --no-cache curl
 
 RUN mkdir /tmp/terraform \
