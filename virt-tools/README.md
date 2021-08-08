@@ -22,7 +22,11 @@ docker run -it -v ${HOME}/mcce-workspace:/home/labuser ghcr.io/thschue/uas-virt-
 
 * Now you get a shell and can use above tools
 
+---
 ## Q/A
-Q: I want to check the authenticity of this container
+**Q**: I want to check the authenticity of this container \
+**A**: Install cosign (https://github.com/sigstore/cosign), Fetch the public key of the images (https://github.com/thschue/uas-containers/blob/main/.github/workflows/cosign.pub) and run `cosign verify -key ./cosign.pub ghcr.io/thschue/uas-virt-tools:<TAG>`
 
-A: Install cosign (https://github.com/sigstore/cosign), Fetch the public key of the images (https://github.com/thschue/uas-containers/blob/main/.github/workflows/cosign.pub) and run `cosign verify -key ./cosign.pub ghcr.io/thschue/uas-virt-tools:<TAG>`
+--- 
+**Q**: A helpful/necessary package/app is missing \
+**A**: Feel free to include it and raise a PR

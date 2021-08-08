@@ -20,18 +20,25 @@ RUN mkdir /opt/gcloud && mkdir /tmp/gcloud-install \
 
 FROM alpine:${ALPINE_VERSION}
 
-ENV PATH="/opt/gcloud/google-cloud-sdk/bin:${PATH}"
+ENV PATH="/opt/gcloud/google-cloud-sdk/bin:/home/labuser/.local/bin:${PATH}"
 
-RUN apk add --no-cache zsh python3
-
-RUN addgroup -S labgroup \
-    && adduser -S labuser -G labgroup
-
+COPY .zshrc.template /tmp/.zshrc.template
+COPY entrypoint.sh /entrypoint.sh
 COPY --from=builder /opt/gcloud /opt/gcloud
 COPY --from=builder /tmp/terraform/terraform /usr/local/bin/terraform
 
-USER labuser
+RUN apk add --no-cache bash zsh python3 curl git python3-dev py-pip build-base \
+    && rm -rf /var/cache/apk/*
 
+RUN addgroup -S labgroup \
+    && adduser -S labuser -G labgroup \
+    && chmod a+x /entrypoint.sh
+
+USER labuser
 WORKDIR /home/labuser
+
+RUN pip install awscli --upgrade --user
+
+ENTRYPOINT /entrypoint.sh && /bin/zsh
 
 
