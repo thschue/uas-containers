@@ -139,6 +139,8 @@ jobs:
           context: ssoa-tools/.
           platforms: linux/amd64
           push: true
+          build-args: |
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           tags: |
             ghcr.io/thschue/uas-ssoa-tools:latest
             ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
@@ -216,6 +218,8 @@ jobs:
           context: virt-tools/.
           platforms: linux/amd64
           push: true
+          build-args: |
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           tags: |
             ghcr.io/thschue/uas-virt-tools:latest
             ghcr.io/thschue/uas-virt-tools:${{ env.VERSION }}
