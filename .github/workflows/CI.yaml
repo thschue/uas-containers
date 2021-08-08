@@ -95,11 +95,11 @@ jobs:
           echo "::set-output name=DATETIME::$(date +'%Y%m%d')$(date +'%H%M')"
 
   ############################################################################
-  # Build Docker Image                                                      #
+  # Build Container Image                                                      #
   ############################################################################
   container_build_ssoa:
     needs: [prepare_ci_run]
-    name: Docker Build SSOA
+    name: Container Build SSOA
     runs-on: ubuntu-20.04
     env:
       BRANCH: ${{ needs.prepare_ci_run.outputs.BRANCH }}
@@ -159,7 +159,7 @@ jobs:
       - name: Sign Container
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign -key .github/workflows/cosign.key ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
+        run: cosign sign -key .github/workflows/cosign.key -a GIT_HASH={{ env.GIT_SHA }} ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
 
       - id: create_docker_build_report
         name: Create Docker Build Report
@@ -192,6 +192,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+
+      - uses: sigstore/cosign-installer@main
+        with:
+          cosign-release: 'v1.0.0'
 
       - name: Load CI Environment from .ci_env
         id: load_ci_env
@@ -237,7 +241,7 @@ jobs:
       - name: Sign Container
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign -key .github/workflows/cosign.key ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
+        run: cosign sign -key .github/workflows/cosign.key -a GIT_HASH={{ env.GIT_SHA }} ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
 
       - id: create_docker_build_report
         name: Create Docker Build Report
