@@ -241,7 +241,7 @@ jobs:
       - name: Sign Container
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign -key .github/workflows/cosign.key -a GIT_HASH=${{ env.GIT_SHA }} ghcr.io/thschue/uas-ssoa-tools:${{ env.VERSION }}
+        run: cosign sign -key .github/workflows/cosign.key -a GIT_HASH=${{ env.GIT_SHA }} ghcr.io/thschue/uas-virt-tools:${{ env.VERSION }}
 
       - id: create_docker_build_report
         name: Create Docker Build Report
